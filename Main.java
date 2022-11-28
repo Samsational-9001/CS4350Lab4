@@ -6,91 +6,93 @@ import java.util.*;
 
 import javax.xml.transform.Source;
 
+import com.microsoft.sqlserver.jdbc.*;
 
 public class Main {
     public static void main(String[] args) throws Exception 
     {
-        String url;  
-            Connection con = null;  
-            try {  
-                Class.forName("com.mysql.jdbc.Driver");  
-                //url="jdbc:mysql://localhost:3306/spring"; 
-                con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/CS4350Lab4", "sqluser", "password" );
-                //con = DriverManager.getConnection(url);  
-                System.out.println("Connection created");  
-                con.close();  
-                System.out.println("Connection closed");  
-                }  
-                catch (Exception e) {  
-                System.out.println(e.toString());  
-            }  
+            // String url;  
+            // Class.forName("oracle.jdbc.driver.OracleDriver");
+            // Connection con = null;  
+            // try {  
+                
+            //     //Class.forName("com.mysql.jdbc.Driver");  
+            //     //url="jdbc:mysql://localhost:3306/spring"; 
+            //     con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/CS4350Lab4", "sqluser", "password" );
+            //     //con = DriverManager.getConnection(url);  
+            //     System.out.println("Connection created");  
+            //     con.close();  
+            //     System.out.println("Connection closed");  
+            //     }  
+            //     catch (Exception e) {  
+            //     System.out.println(e.toString());  
+            // }  
 
-        //int option = CommandMenu();
-        // Scanner scan = new Scanner(System.in); 
-        // boolean notExit = true;
-        // while(notExit){
-        //     CommandMenu();
-        //     int choice = scan.nextInt();
-        //     switch(choice){
-        //         case 0:
-        //             notExit = false;
-        //         break;
-        //         case 1:
-        //         //Display Schedule
-        //             System.out.println("Display Schedule");
-        //         break;
-        //         case 2:
-        //         //Edit Schedule
-        //             System.out.println("Edit Schedule");
-        //         break;
-        //         case 3:
-        //         //Delete Trip Offering
-        //             System.out.println("Delete Trip Offering");
-        //         break;
-        //         case 4:
-        //         //Add Potential Trip
-        //             System.out.println("Add Potential Trip");
-        //         break;
-        //         case 5:
-        //         //Change Driver
-        //             System.out.println("Change Driver");
-        //         break;
-        //         case 6:
-        //         //Change Bus
-        //             System.out.println("Change Bus");
-        //         break;
-        //         case 7:
-        //         //Add Trip Offering
-        //             System.out.println("Add Trip Offering");
-        //             addATripOffering();
-        //         break;
-        //         case 8:
-        //         //Display Stops
-        //             System.out.println("Display Stops");
-        //         break;
-        //         case 9:
-        //         //Display Weekly Schedule
-        //             System.out.println("Display Weekly Schedule");
-        //         break;
-        //         case 10:
-        //         //Add Driver
-        //             System.out.println("Add Driver");
-        //         break;
-        //         case 11:
-        //         //Add Bus
-        //             System.out.println("Add Bus");
-        //         break;
-        //         case 12:
-        //         //Delete Bus
-        //             System.out.println("Delete Bus");
-        //         break;
-        //         case 13:
-        //         //Insert Actual Trip Information
-        //             System.out.println("Insert Actual Trip Information");
-        //         break;
-        //         default:System.out.println("That is not an option, please try again.");
-        //     }
-        // }
+        Scanner scan = new Scanner(System.in); 
+        boolean notExit = true;
+        while(notExit){
+            CommandMenu();
+            int choice = scan.nextInt();
+            switch(choice){
+                case 0:
+                    notExit = false;
+                break;
+                case 1:
+                //Display Schedule
+                    System.out.println("Display Schedule");
+                break;
+                case 2:
+                //Edit Schedule
+                    System.out.println("Edit Schedule");
+                break;
+                case 3:
+                //Delete Trip Offering
+                    System.out.println("Delete Trip Offering");
+                break;
+                case 4:
+                //Add Potential Trip
+                    System.out.println("Add Potential Trip");
+                break;
+                case 5:
+                //Change Driver
+                    System.out.println("Change Driver");
+                break;
+                case 6:
+                //Change Bus
+                    System.out.println("Change Bus");
+                break;
+                case 7:
+                //Add Trip Offering
+                    System.out.println("Add Trip Offering");
+                    addATripOffering();
+                break;
+                case 8:
+                //Display Stops
+                    System.out.println("Display Stops");
+                break;
+                case 9:
+                //Display Weekly Schedule
+                    System.out.println("Display Weekly Schedule");
+                break;
+                case 10:
+                //Add Driver
+                    System.out.println("Add Driver");
+                break;
+                case 11:
+                //Add Bus
+                    System.out.println("Add Bus");
+                break;
+                case 12:
+                //Delete Bus
+                    System.out.println("Delete Bus");
+                break;
+                case 13:
+                //Insert Actual Trip Information
+                    System.out.println("Insert Actual Trip Information");
+                break;
+                default:System.out.println("That is not an option, please try again.");
+            }
+        }
         
     }
     public static void CommandMenu()
@@ -163,11 +165,11 @@ public class Main {
         int busID = scan.nextInt();
 
         try{
-            String sql = "INSERT INTO TripOffering values("+tripNum+", '"+date+"', "+startTime+", "+arrivalTime+", "+driverName+", "+busID+");";
+            String sql = "INSERT INTO TripOffering values("+tripNum+", \""+date+"\", \""+startTime+"\", \""+arrivalTime+"\", \""+driverName+"\", "+busID+");";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser", "password");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(rs);
+            stmt.executeUpdate(sql);
+            //System.out.println(rs);
             conn.close();
         }catch (SQLException ex){
            System.out.println(ex.getMessage());
