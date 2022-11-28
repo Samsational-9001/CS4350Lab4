@@ -13,5 +13,11 @@
             "database": "CS4350Lab4",
             "password": "password"
         }
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "d:\\School - Cal Pol\\sqljdbc_11.2.0.0_enu\\sqljdbc_11.2\\enu\\mssql-jdbc-11.2.0.jre8.jar",
+        "d:\\Downloads D\\ojdbc11.jar",
+        "c:\\Users\\boo48\\.m2\\repository\\mysql\\mysql-connector-java\\8.0.26\\mysql-connector-java-8.0.26.jar"
     ]
 }
