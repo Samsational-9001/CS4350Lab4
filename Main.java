@@ -34,7 +34,6 @@ public class Main {
                     break;
                 case 4:
                     // Add Trip
-                    //System.out.println("Add Trip");
                     addTrip();
                     break;
                 case 5:
@@ -89,9 +88,9 @@ public class Main {
         System.out.println(" 1.)  Display Schedule");
         System.out.println(" 2.)  Edit Schedule");
         System.out.println(" 3.)  Delete Trip Offering");//WORKS
-        System.out.println(" 4.)  Add Trip");
-        System.out.println(" 5.)  Change Driver");
-        System.out.println(" 6.)  Change Bus");
+        System.out.println(" 4.)  Add Trip");//WORKS
+        System.out.println(" 5.)  Change Driver");//DONE NEED CHECK
+        System.out.println(" 6.)  Change Bus");//DONE NEED CHECK
         System.out.println(" 7.)  Add Trip Offering");//WORKS
         System.out.println(" 8.)  Display Stops");
         System.out.println(" 9.)  Display Weekly Schedule");
@@ -140,9 +139,39 @@ public class Main {
 
     }
 
+//changeBus(int busID, int tripNum, String date, String schStartTime)
+    // Change Driver FOR GIVEN TRIP OFFERING
+    public static void changeDriverForTrip(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the Driver name you would like to change to:");
+        String driverName = scan.nextLine();
+        String nothing = scan.nextLine();
+        System.out.println("Enter Trip Number:");
+        int tripNum = scan.nextInt();
+        nothing = scan.nextLine();
+        System.out.println("Please enter Date of Trip in the format MM/DD/YYYY:");
+        String date = scan.nextLine();
+        System.out.println("Please enter Scheduled Start Time of Trip:");
+        String schStartTime = scan.nextLine();
 
-    // Change Driver
-    // Change
+        changeDriver(driverName, tripNum, date, schStartTime);
+    }
+    // Change Bus FOR GIVEN TRIP OFFERING
+    public static void changeBusForTrip(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter Bus ID you would like to change to:");
+        int busID = scan.nextInt();
+        String nothing = scan.nextLine();
+        System.out.println("Enter Trip Number:");
+        int tripNum = scan.nextInt();
+        nothing = scan.nextLine();
+        System.out.println("Please enter Date of Trip in the format MM/DD/YYYY:");
+        String date = scan.nextLine();
+        System.out.println("Please enter Scheduled Start Time of Trip:");
+        String schStartTime = scan.nextLine();
+
+        changeBus(busID, tripNum, date, schStartTime);
+    }
 
 
     // Add Trip Offering
@@ -220,6 +249,35 @@ public class Main {
     }
     // Insert Actual Trip Information
 
+    public static void addActualTripStopInfo(){
+        Scanner scan = new Scanner(System.in);
+            System.out.println("Please enter Trip Number (From a trip that exists):");
+            int tripNum = scan.nextInt();
+            String nothing = scan.nextLine();//needed so no error
+            System.out.println("Please enter Stop number (From a stop that exists):");
+            String stopNum = scan.nextLine();
+
+            System.out.println("Please enter Scheduled Arrival Time:");
+            String schArrive = scan.nextLine();
+            System.out.println("Please enter Actual Start Time:");
+            String actStart = scan.nextLine();
+            System.out.println("Please enter Actual Arrival Time:");
+            String actArrive = scan.nextLine();
+            System.out.println("Please enter Number of Passengers Entering:");
+            int passIn = scan.nextInt();
+            nothing = scan.nextLine();//needed so no error
+            System.out.println("Please enter Number of Passengers Leaving:");
+            int passOur = scan.nextInt();
+            nothing = scan.nextLine();//needed so no error
+
+            //newTrip(tripNum, "", "");
+            // default year will be hard coded as 0000
+            //newBus(busID, "", 0000);
+            //newTripOffering(tripNum, date, startTime, arrivalTime, driverName, busID);
+
+            newActualTripStopInfo(tripNum, stopNum, schArrive, actStart, actArrive, passIn, passOut);
+    }
+
     // QUERIES!!!
     public static void newTripOffering(int tripNum, String date, String startTime, String arrivalTime,
             String driverName, int busID) {
@@ -284,22 +342,22 @@ public class Main {
         }
     }
 
-    // public static void newActualTripStopInfo(int tripNum, String date, String startTime, String arrivalTime,
-    //         String driverName, int busID) {
-    //     try {
-    //         String sql = "INSERT INTO TripOffering values(" + tripNum + ", \"" + date + "\", \"" + startTime + "\", \""
-    //                 + arrivalTime + "\", \"" + driverName + "\", " + busID + ");";
-    //         Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
-    //                 "password");
-    //         Statement stmt = conn.createStatement();
-    //         stmt.executeUpdate(sql);
-    //         // System.out.println(rs);
-    //         conn.close();
-    //     } catch (SQLException ex) {
-    //         System.out.println(ex.getMessage());
-    //         System.out.println("FAILURE!");
-    //     }
-    // }
+    public static void newActualTripStopInfo(int tripNum, int stopNum, String schArrive, String actStart, String actArrive, int passIn, int passOut) {
+        // try {
+        //     String sql = "INSERT INTO newActualTripStopInfo values(" + tripNum + ", \"" + date + "\", \"" + startTime + "\", \""
+        //             + arrivalTime + "\", \"" + driverName + "\", " + busID + ");";
+        //     Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+        //             "password");
+        //     Statement stmt = conn.createStatement();
+        //     stmt.executeUpdate(sql);
+        //     // System.out.println(rs);
+        //     conn.close();
+        // } catch (SQLException ex) {
+        //     System.out.println(ex.getMessage());
+        //     System.out.println("FAILURE!");
+        // }
+    }
+
     public static void removeTripOffering(int tripNum, String date, String startTime){
         try {
             String sql = "DELETE FROM TripOffering WHERE TripNumber = '"+tripNum+"' AND Date = '"+date+"' AND ScheduledStartTime = '"+startTime+"';";
@@ -317,6 +375,36 @@ public class Main {
     public static void removeBus(int busID) {
         try {
             String sql = "DELETE FROM Bus WHERE BusID = " + busID + ";";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            // System.out.println(rs);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
+    }
+
+    public static void changeDriver(String driverName, int tripNum, String date, String schStartTime){
+        try {
+            String sql = "UPDATE TripOffering SET DriverName = "+driverName+" WHERE TripNumber = "+tripNum+" AND Date = "+date+" AND ScheduledStartTime = "+schStartTime+";";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            // System.out.println(rs);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
+    }
+
+    public static void changeBus(int busID, int tripNum, String date, String schStartTime){
+        try {
+            String sql = "UPDATE TripOffering SET BusID = "+busID+" WHERE TripNumber = "+tripNum+" AND Date = "+date+" AND ScheduledStartTime = "+schStartTime+";";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
