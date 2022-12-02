@@ -142,10 +142,25 @@ public class Main {
 
     }
     // Edit Schedule
+    public static void editSchedule(){
+
+    }
     // Delete Trip Offering
+    public static void deleteTripOffering() {
+
+    }
     // Add Potential Trip
+    public static void addPotentialTrip(){
+
+    }
     // Change Driver
-    // Change 
+    public static void changeDriver(){
+
+    }
+    // Change bus
+    public static void changeBus(){
+
+    } 
     
     // Add Trip Offering
     public static void addATripOffering() {
@@ -178,10 +193,29 @@ public class Main {
 
     }
     // Display Stops
+    public static void displayStops(){
+
+    }
     // Display Weekly Schedule
+    public static void displayWeeklySchedule() {
+
+    }
     // Add Driver
+    public static void addDriver(){
+
+    }
     // Add Bus
+    public static void addBus(){
+
+    }
     // Delete Bus
+    public static void deleteBus() {
+
+    }
     // Insert Actual Trip Information
+    public static void insertActualTripInfo(){
+        
+
+    }
 }
 
