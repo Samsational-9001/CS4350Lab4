@@ -1,1 +1,1 @@
-insert into TripOffering values(421, '2022/03/01', "01:20", "03:40", "Meme", 6969);
+insert into driver values(421, '2022/03/01', "01:20", "03:40", "Meme", 6969);

@@ -1,7 +1,5 @@
 import java.net.SocketTimeoutException;
 import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.Driver;
 import java.util.*;
 import javax.xml.transform.Source;
 import com.microsoft.sqlserver.jdbc.*;
@@ -13,6 +11,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         boolean notExit = true;
         while (notExit) {
+            System.out.println();
             CommandMenu();
             int choice = scan.nextInt();
             switch (choice) {
@@ -21,60 +20,61 @@ public class Main {
                     break;
                 case 1:
                     // Display Schedule
-                    System.out.println("Display Schedule");
+                    //System.out.println("Display Schedule");
+                    displaySchedule();
                     break;
                 case 2:
-                    // Edit Schedule
-                    System.out.println("Edit Schedule");
-                    break;
-                case 3:
                     // Delete Trip Offering
-                    System.out.println("Delete Trip Offering");
+                    //System.out.println("Delete Trip Offering");
                     deleteTripOffering();
                     break;
-                case 4:
+                case 3:
                     // Add Trip
                     addTrip();
                     break;
-                case 5:
+                case 4:
                     // Change Driver
-                    System.out.println("Change Driver");
+                    //System.out.println("Change Driver");
+                    changeDriverForTrip();
+                    break;
+                case 5:
+                    // Change Bus
+                    //System.out.println("Change Bus");
+                    changeBusForTrip();
                     break;
                 case 6:
-                    // Change Bus
-                    System.out.println("Change Bus");
-                    break;
-                case 7:
                     // Add Trip Offering
-                    System.out.println("Add Trip Offering");
+                    //System.out.println("Add Trip Offering");
                     addTripOffering();
                     break;
-                case 8:
+                case 7:
                     // Display Stops
-                    System.out.println("Display Stops");
+                    //System.out.println("Display Stops");
+                    displayStops();
                     break;
-                case 9:
+                case 8:
                     // Display Weekly Schedule
                     System.out.println("Display Weekly Schedule");
                     break;
-                case 10:
+                case 9:
                     // Add Driver
-                    System.out.println("Add Driver");
+                    //System.out.println("Add Driver");
                     addDriver();
                     break;
-                case 11:
+                case 10:
                     // Add Bus
-                    System.out.println("Add Bus");
+                    //System.out.println("Add Bus");
                     addBus();
                     break;
-                case 12:
+                case 11:
                     // Delete Bus
-                    System.out.println("Delete Bus");
-                    
+                    //System.out.println("Delete Bus");
+                    deleteBus();
                     break;
-                case 13:
+                case 12:
                     // Insert Actual Trip Information
-                    System.out.println("Insert Actual Trip Information");
+                    //System.out.println("Insert Actual Trip Information");
+                    addActualTripStopInfo();
                     break;
                 default:
                     System.out.println("That is not an option, please try again.");
@@ -85,28 +85,33 @@ public class Main {
     public static void CommandMenu() {
         System.out.println("Command Menu");
         System.out.println(" 0.)  Exit"); //WORKS
-        System.out.println(" 1.)  Display Schedule");
-        System.out.println(" 2.)  Edit Schedule");
-        System.out.println(" 3.)  Delete Trip Offering");//WORKS
-        System.out.println(" 4.)  Add Trip");//WORKS
-        System.out.println(" 5.)  Change Driver");//DONE NEED CHECK
-        System.out.println(" 6.)  Change Bus");//DONE NEED CHECK
-        System.out.println(" 7.)  Add Trip Offering");//WORKS
-        System.out.println(" 8.)  Display Stops");
-        System.out.println(" 9.)  Display Weekly Schedule");
-        System.out.println("10.)  Add Driver");//WORKS
-        System.out.println("11.)  Add Bus");//WORKS
-        System.out.println("12.)  Delete Bus");//WORKS
-        System.out.println("13.)  Create Actual Trip Information");
+        System.out.println(" 1.)  Display Schedule");//DONE NEED CHECK
+        System.out.println(" 2.)  Delete Trip Offering");//WORKS
+        System.out.println(" 3.)  Add Trip");//WORKS 
+        System.out.println(" 4.)  Change Driver");//DONE NEED CHECK
+        System.out.println(" 5.)  Change Bus");//DONE NEED CHECK
+        System.out.println(" 6.)  Add Trip Offering");//WORKS (UPDATED NEEDS DEBUGGUNG)
+        System.out.println(" 7.)  Display Stops");//DONE NEED CHECK
+        System.out.println(" 8.)  Display Weekly Schedule");
+        System.out.println(" 9.)  Add Driver");//WORKS
+        System.out.println("10.)  Add Bus");//WORKS
+        System.out.println("11.)  Delete Bus");//WORKS
+        System.out.println("12.)  Create Actual Trip Information");//DONE NEED CHECK
     }
 
     // Display Schedule
-    public static void DisplaySchedule() {
-        
+    public static void displaySchedule() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter the Starting Location:");
+        String startLoc = scan.nextLine();
+        System.out.println("Please enter Scheduled Destination Name:");
+        String destName = scan.nextLine();
+        System.out.println("Please enter Date in the format MM/DD/YYYY:");
+        String date = scan.nextLine();
+        displaySchedQuery(startLoc, destName, date);
     }
 
 
-    // Edit Schedule
 
 
     // Delete Trip Offering
@@ -139,7 +144,7 @@ public class Main {
 
     }
 
-//changeBus(int busID, int tripNum, String date, String schStartTime)
+
     // Change Driver FOR GIVEN TRIP OFFERING
     public static void changeDriverForTrip(){
         Scanner scan = new Scanner(System.in);
@@ -156,6 +161,8 @@ public class Main {
 
         changeDriver(driverName, tripNum, date, schStartTime);
     }
+
+
     // Change Bus FOR GIVEN TRIP OFFERING
     public static void changeBusForTrip(){
         Scanner scan = new Scanner(System.in);
@@ -194,9 +201,10 @@ public class Main {
             int busID = scan.nextInt();
             // makes trip with only tripNum
 
-            newTrip(tripNum, "", "");
+            //for debug
+            //newTrip(tripNum, "", "");
             // default year will be hard coded as 0000
-            newBus(busID, "", 0000);
+            //newBus(busID, "", 0000);
             newTripOffering(tripNum, date, startTime, arrivalTime, driverName, busID);
 
             System.out.println("Do you want to endter more trips?(Y/N)");
@@ -212,6 +220,15 @@ public class Main {
 
 
     // Display Stops
+    public static void displayStops(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter Trip Number (From a trip that exists):");
+        int tripNum = scan.nextInt();
+        String nothing = scan.nextLine();//needed so no error
+        displayStopsQuery(tripNum);
+    }
+
+
     // Display Weekly Schedule
 
 
@@ -226,6 +243,7 @@ public class Main {
         newDriver(name, pNumber);
 
     }
+
     // Add Bus
     public static void addBus() {
         Scanner scan = new Scanner(System.in);
@@ -240,6 +258,7 @@ public class Main {
 
         newBus(busID, model, year);
     }
+
     // Delete Bus
     public static void deleteBus() {
         Scanner scan = new Scanner(System.in);
@@ -247,6 +266,7 @@ public class Main {
         int busID = scan.nextInt();
         removeBus(busID);
     }
+
     // Insert Actual Trip Information
 
     public static void addActualTripStopInfo(){
@@ -254,8 +274,13 @@ public class Main {
             System.out.println("Please enter Trip Number (From a trip that exists):");
             int tripNum = scan.nextInt();
             String nothing = scan.nextLine();//needed so no error
+            System.out.println("Please enter Date in the format MM/DD/YYYY (From a trip that exists):");
+            String date = scan.nextLine();
+            System.out.println("Please enter Scheduled Start Time (From a trip that exists):");
+            String startTime = scan.nextLine();
             System.out.println("Please enter Stop number (From a stop that exists):");
-            String stopNum = scan.nextLine();
+            int stopNum = scan.nextInt();
+            nothing = scan.nextLine();//needed so no error
 
             System.out.println("Please enter Scheduled Arrival Time:");
             String schArrive = scan.nextLine();
@@ -267,7 +292,7 @@ public class Main {
             int passIn = scan.nextInt();
             nothing = scan.nextLine();//needed so no error
             System.out.println("Please enter Number of Passengers Leaving:");
-            int passOur = scan.nextInt();
+            int passOut = scan.nextInt();
             nothing = scan.nextLine();//needed so no error
 
             //newTrip(tripNum, "", "");
@@ -275,7 +300,8 @@ public class Main {
             //newBus(busID, "", 0000);
             //newTripOffering(tripNum, date, startTime, arrivalTime, driverName, busID);
 
-            newActualTripStopInfo(tripNum, stopNum, schArrive, actStart, actArrive, passIn, passOut);
+            //error here
+            newActualTripStopInfo(tripNum, date, startTime, stopNum, schArrive, actStart, actArrive, passIn, passOut);
     }
 
     // QUERIES!!!
@@ -313,7 +339,7 @@ public class Main {
 
     public static void newDriver(String name, String pNumber) {
         try {
-            String sql = "INSERT INTO Bus values(\"" + name + "\", \"" + pNumber + "\");";
+            String sql = "INSERT INTO Driver values(\"" + name + "\", \"" + pNumber + "\");";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
@@ -341,21 +367,21 @@ public class Main {
             System.out.println("FAILURE!");
         }
     }
-
-    public static void newActualTripStopInfo(int tripNum, int stopNum, String schArrive, String actStart, String actArrive, int passIn, int passOut) {
-        // try {
-        //     String sql = "INSERT INTO newActualTripStopInfo values(" + tripNum + ", \"" + date + "\", \"" + startTime + "\", \""
-        //             + arrivalTime + "\", \"" + driverName + "\", " + busID + ");";
-        //     Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
-        //             "password");
-        //     Statement stmt = conn.createStatement();
-        //     stmt.executeUpdate(sql);
-        //     // System.out.println(rs);
-        //     conn.close();
-        // } catch (SQLException ex) {
-        //     System.out.println(ex.getMessage());
-        //     System.out.println("FAILURE!");
-        // }
+//(tripNum, date, startTime, stopNum, schArrive, actStart, actArrive, passIn, passOut)
+    public static void newActualTripStopInfo(int tripNum, String date, String startTime, int stopNum, String schArrive, String actStart, String actArrive, int passIn, int passOut) {
+        try {
+            String sql = "INSERT INTO newActualTripStopInfo values(" + tripNum + ", \"" + date + "\", \"" + startTime + "\", "
+                    + stopNum + ", \"" + schArrive + "\", \"" + actStart + "\", \"" + actArrive + "\"," + passIn + " , " + passOut + ");";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            // System.out.println(rs);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
     }
 
     public static void removeTripOffering(int tripNum, String date, String startTime){
@@ -410,6 +436,42 @@ public class Main {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             // System.out.println(rs);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
+    }
+
+    public static void displaySchedQuery(String startLoc, String destName, String date){
+        try {
+            String sql = "SELECT TRO.ScheduledStartTime, TRO.SecheduledArrivalTime, TRO.DriverName, TRO.BusID" +
+                            "FROM TripOffering TRO, Trip T"+
+                            "WHERE T.StartLocationName LIKE '"+startLoc+"' AND"+
+                            "T.DestinationName LIKE '"+destName+"' AND"+
+                            "TRO.Date = '"+date+"' "+
+                            "ORDER by ScheduledStartTime;";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(rs);
+            // System.out.println(rs);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
+    }
+
+    public static void displayStopsQuery(int tripNum){
+        try {
+            String sql = "SELECT * FROM TripStopInfo TSI WHERE TSI.TripNumber = '"+tripNum+"' ORDER BY SequenceNumber;";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(rs);
             conn.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
