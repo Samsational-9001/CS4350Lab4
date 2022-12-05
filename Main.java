@@ -54,7 +54,8 @@ public class Main {
                     break;
                 case 8:
                     // Display Weekly Schedule
-                    System.out.println("Display Weekly Schedule");
+                    //System.out.println("Display Weekly Schedule");
+                    displayWeeklySched();
                     break;
                 case 9:
                     // Add Driver
@@ -226,6 +227,17 @@ public class Main {
     }
 
     // Display Weekly Schedule
+    public static void displayWeeklySched(){
+        //NOTE THIS NEEDS TO BE EDITED SO THE DATES OF THE WEEK CAN BE GOTTEN
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter Driver's name:");
+        String name = scan.nextLine();
+        System.out.println("Please enter Date in the format MM/DD/YYYY:");
+        String date = scan.nextLine();
+
+        displayWeekQuery(name, date);
+
+    }
 
     // Add Driver
     public static void addDriver() {
@@ -476,6 +488,28 @@ public class Main {
         try {
             String sql = "SELECT * FROM TripStopInfo TSI WHERE TSI.TripNumber = '" + tripNum
                     + "' ORDER BY SequenceNumber;";
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
+                    "password");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            // System.out.println(rs);
+            while (rs.next()) {
+                rs.getString(1);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("FAILURE!");
+        }
+    }
+
+    public static void displayWeekQuery(String dName, String date){
+        try {
+            String sql = "SELECT TRO.TripNumber, TRO.`Date`, TRO.ScheduledStartTime, TRO.BusID"+
+                         "FROM TripOffering"+
+                         "WHERE TRO.DriverName LIKE '"+dName+"' AND"+
+                         "TRO.`Date` = '`"+date+"`'"+
+                         "ORDER BY ScheduledStartTime;";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
