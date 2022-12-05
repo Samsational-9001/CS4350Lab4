@@ -93,7 +93,7 @@ public class Main {
         System.out.println(" 5.)  Change Bus");// DONE NEED CHECK
         System.out.println(" 6.)  Add Trip Offering");// WORKS (UPDATED NEEDS DEBUGGUNG)
         System.out.println(" 7.)  Display Stops");// DONE NEED CHECK
-        System.out.println(" 8.)  Display Weekly Schedule");
+        System.out.println(" 8.)  Display Weekly Schedule");// DONE NEED CHECK
         System.out.println(" 9.)  Add Driver");// WORKS
         System.out.println("10.)  Add Bus");// WORKS
         System.out.println("11.)  Delete Bus");// WORKS
