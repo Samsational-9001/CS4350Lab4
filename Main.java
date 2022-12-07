@@ -91,7 +91,7 @@ public class Main {
         System.out.println(" 3.)  Add Trip");// WORKS
         System.out.println(" 4.)  Change Driver");// DONE NEED CHECK
         System.out.println(" 5.)  Change Bus");// DONE NEED CHECK
-        System.out.println(" 6.)  Add Trip Offering");// WORKS (UPDATED NEEDS DEBUGGUNG)
+        System.out.println(" 6.)  Add Trip Offering");// WORKS
         System.out.println(" 7.)  Display Stops");// DONE NEED CHECK
         System.out.println(" 8.)  Display Weekly Schedule");// DONE NEED CHECK
         System.out.println(" 9.)  Add Driver");// WORKS
@@ -193,6 +193,7 @@ public class Main {
             String driverName = scan.nextLine();
             System.out.println("Please enter BusID:");
             int busID = scan.nextInt();
+            nothing = scan.nextLine();// needed so no error
             // makes trip with only tripNum
 
             // for debug
@@ -210,7 +211,7 @@ public class Main {
                 cont = false;
             } else {
                 System.out.println(
-                        "You entered something we could not understant, therefore we will take the answer as no.");
+                        "You entered something we could not understand, therefore we will take the answer as no.");
                 cont = false;
             }
 
@@ -473,9 +474,13 @@ public class Main {
             ResultSet rs = stmt.executeQuery(sql);
             
             //System.out.println(rs);
+            System.out.println("ScheduledStartTime \t SecheduledArrivalTime \t DriverName \t BusID");
             while (rs.next()) {
-                rs.getString(1);
-                System.out.println(rs);
+                String startTime = rs.getString(1);
+                String arrTime = rs.getString(2);
+                String dName = rs.getString(3);
+                int busNum = rs.getInt(4);
+                System.out.println(startTime+" \t \t "+arrTime+"  \t \t "+dName+" \t \t "+busNum);
             }
             conn.close();
         } catch (SQLException ex) {
