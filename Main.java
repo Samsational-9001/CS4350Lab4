@@ -94,12 +94,12 @@ public class Main {
         System.out.println(" 4.)  Change Driver");// WORKS
         System.out.println(" 5.)  Change Bus");// WORKS
         System.out.println(" 6.)  Add Trip Offering");// WORKS
-        System.out.println(" 7.)  Display Stops");// DONE NEED CHECK
+        System.out.println(" 7.)  Display Stops");// WORKS
         System.out.println(" 8.)  Display Weekly Schedule");// WORKS
         System.out.println(" 9.)  Add Driver");// WORKS
         System.out.println("10.)  Add Bus");// WORKS
         System.out.println("11.)  Delete Bus");// WORKS
-        System.out.println("12.)  Create Actual Trip Information");// DONE NEED CHECK
+        System.out.println("12.)  Create Actual Trip Information");// WORKS
     }
 
     // Display Schedule
@@ -402,7 +402,7 @@ public class Main {
     public static void newActualTripStopInfo(int tripNum, String date, String startTime, int stopNum, String schArrive,
             String actStart, String actArrive, int passIn, int passOut) {
         try {
-            String sql = "INSERT INTO newActualTripStopInfo values(" + tripNum + ", \"" + date + "\", \"" + startTime
+            String sql = "INSERT INTO ActualTripStopInfo values(" + tripNum + ", \"" + date + "\", \"" + startTime
                     + "\", "
                     + stopNum + ", \"" + schArrive + "\", \"" + actStart + "\", \"" + actArrive + "\"," + passIn + " , "
                     + passOut + ");";
@@ -519,12 +519,14 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             // System.out.println(rs);
-            System.out.println("Stop Num \t Stop Addr. ");
+            System.out.println("Stop Num \t Stop Number \t Sequence Number \t Driving Time");
             while (rs.next()) {
-                int stopNum = rs.getInt(1);
+                int tripNumRes = rs.getInt(1);
+                int stopNum = rs.getInt(2);
+                int seqNum = rs.getInt(1);
                 String StopAddr = rs.getString(2);
  
-                System.out.println(stopNum+" \t \t "+StopAddr+" ");
+                System.out.println(tripNumRes+" \t \t "+stopNum+" \t \t "+seqNum+" \t \t \t "+StopAddr);
             }
             conn.close();
         } catch (SQLException ex) {

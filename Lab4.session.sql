@@ -1,1 +1,1 @@
-insert into stop values(16, 'B');
+insert into tripstopinfo values(123, 16, 166, '5 hours');
