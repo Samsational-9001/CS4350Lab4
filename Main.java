@@ -88,14 +88,14 @@ public class Main {
     public static void CommandMenu() {
         System.out.println("Command Menu");
         System.out.println(" 0.)  Exit"); // WORKS
-        System.out.println(" 1.)  Display Schedule");// DONE
+        System.out.println(" 1.)  Display Schedule");// WORKS
         System.out.println(" 2.)  Delete Trip Offering");// WORKS
         System.out.println(" 3.)  Add Trip");// WORKS
-        System.out.println(" 4.)  Change Driver");// DONE NEED CHECK
-        System.out.println(" 5.)  Change Bus");// DONE NEED CHECK
+        System.out.println(" 4.)  Change Driver");// WORKS
+        System.out.println(" 5.)  Change Bus");// WORKS
         System.out.println(" 6.)  Add Trip Offering");// WORKS
         System.out.println(" 7.)  Display Stops");// DONE NEED CHECK
-        System.out.println(" 8.)  Display Weekly Schedule");// DONE NEED CHECK
+        System.out.println(" 8.)  Display Weekly Schedule");// WORKS
         System.out.println(" 9.)  Add Driver");// WORKS
         System.out.println("10.)  Add Bus");// WORKS
         System.out.println("11.)  Delete Bus");// WORKS
@@ -148,10 +148,9 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the Driver name you would like to change to:");
         String driverName = scan.nextLine();
-        String nothing = scan.nextLine();
         System.out.println("Enter Trip Number:");
         int tripNum = scan.nextInt();
-        nothing = scan.nextLine();
+        String nothing = scan.nextLine();
         System.out.println("Please enter Date of Trip in the format MM/DD/YYYY:");
         String date = scan.nextLine();
         System.out.println("Please enter Scheduled Start Time of Trip:");
@@ -246,13 +245,15 @@ public class Main {
         int month = Integer.parseInt(date.substring(0, 2));
         int day = Integer.parseInt(date.substring(3, 5));
         int year = Integer.parseInt(date.substring(6, 10));
-        
-        now.set(year,month,day);
+
+        //MONTH NEEDS TO BE -1 BECAUSE JAN IS 0
+        now.set(year,(month-1),day);
         for(int i = 0; i < 7; i++){
             daysOfWeek[i] = formatter.format(now.getTime());
             now.add(Calendar.DAY_OF_MONTH,1);
         }
-        System.out.println(Arrays.toString(daysOfWeek));
+        //System.out.println(Arrays.toString(daysOfWeek));
+        System.out.println("TripNumber \t Date \t ScheduledStartTime \t BusID");
         for (String days : daysOfWeek) {
             displayWeekQuery(name, days);
         }
@@ -450,8 +451,8 @@ public class Main {
 
     public static void changeDriver(String driverName, int tripNum, String date, String schStartTime) {
         try {
-            String sql = "UPDATE TripOffering SET DriverName = " + driverName + " WHERE TripNumber = " + tripNum
-                    + " AND Date = " + date + " AND ScheduledStartTime = " + schStartTime + ";";
+            String sql = "UPDATE TripOffering SET DriverName = '" + driverName + "' WHERE TripNumber = " + tripNum
+                    + " AND Date = '" + date + "' AND ScheduledStartTime = '" + schStartTime + "';";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
@@ -466,8 +467,8 @@ public class Main {
 
     public static void changeBus(int busID, int tripNum, String date, String schStartTime) {
         try {
-            String sql = "UPDATE TripOffering SET BusID = " + busID + " WHERE TripNumber = " + tripNum + " AND Date = "
-                    + date + " AND ScheduledStartTime = " + schStartTime + ";";
+            String sql = "UPDATE TripOffering SET BusID = " + busID + " WHERE TripNumber = " + tripNum + " AND Date = '"
+                    + date + "' AND ScheduledStartTime = '" + schStartTime + "';";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
@@ -535,18 +536,23 @@ public class Main {
     public static void displayWeekQuery(String dName, String date){
         
         try {
-            String sql = "SELECT TRO.TripNumber, TRO.`Date`, TRO.ScheduledStartTime, TRO.BusID"+
-                         "FROM TripOffering"+
-                         "WHERE TRO.DriverName LIKE '"+dName+"' AND"+
-                         "TRO.`Date` = '`"+date+"`'"+
-                         "ORDER BY ScheduledStartTime;";
+            String sql = "SELECT TRO.TripNumber, TRO.`Date`, TRO.ScheduledStartTime, TRO.BusID "+
+                         "FROM TripOffering TRO "+
+                         "WHERE TRO.DriverName LIKE \""+dName+"\" AND "+
+                         "TRO.`Date` = \""+date+"\" "+
+                         "ORDER BY TRO.ScheduledStartTime;";
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cs4350lab4", "sqluser",
                     "password");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+            
             // System.out.println(rs);
             while (rs.next()) {
-                rs.getString(1);
+                int tripNumRes = rs.getInt(1);
+                String dateRes = rs.getString(2);
+                String schedTime = rs.getString(3);
+                int busNumRes = rs.getInt(4);
+                System.out.println(tripNumRes+"\t \t \t "+dateRes+" \t \t \t "+schedTime+" \t \t "+busNumRes);
             }
             conn.close();
         } catch (SQLException ex) {

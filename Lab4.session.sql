@@ -1,1 +1,1 @@
-insert into stop values(144, 'San Diego, Ca');
+insert into stop values(16, 'B');
