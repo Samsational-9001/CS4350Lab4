@@ -1,5 +1,7 @@
 import java.net.SocketTimeoutException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import javax.xml.transform.Source;
 import com.microsoft.sqlserver.jdbc.*;
@@ -86,7 +88,7 @@ public class Main {
     public static void CommandMenu() {
         System.out.println("Command Menu");
         System.out.println(" 0.)  Exit"); // WORKS
-        System.out.println(" 1.)  Display Schedule");// DONE NEED CHECK
+        System.out.println(" 1.)  Display Schedule");// DONE
         System.out.println(" 2.)  Delete Trip Offering");// WORKS
         System.out.println(" 3.)  Add Trip");// WORKS
         System.out.println(" 4.)  Change Driver");// DONE NEED CHECK
@@ -236,7 +238,25 @@ public class Main {
         System.out.println("Please enter Date in the format MM/DD/YYYY:");
         String date = scan.nextLine();
 
-        displayWeekQuery(name, date);
+        Calendar now = Calendar.getInstance();
+        //need 7 days of the week
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        //LocalDate enteredDate = LocalDate.parse(date);
+        String[] daysOfWeek = new String[7];
+        int month = Integer.parseInt(date.substring(0, 2));
+        int day = Integer.parseInt(date.substring(3, 5));
+        int year = Integer.parseInt(date.substring(6, 10));
+        
+        now.set(year,month,day);
+        for(int i = 0; i < 7; i++){
+            daysOfWeek[i] = formatter.format(now.getTime());
+            now.add(Calendar.DAY_OF_MONTH,1);
+        }
+        System.out.println(Arrays.toString(daysOfWeek));
+        for (String days : daysOfWeek) {
+            displayWeekQuery(name, days);
+        }
+
 
     }
 
@@ -480,7 +500,7 @@ public class Main {
                 String arrTime = rs.getString(2);
                 String dName = rs.getString(3);
                 int busNum = rs.getInt(4);
-                System.out.println(startTime+" \t \t "+arrTime+"  \t \t "+dName+" \t \t "+busNum);
+                System.out.println(startTime+"\t \t \t "+arrTime+" \t \t \t "+dName+" \t \t "+busNum);
             }
             conn.close();
         } catch (SQLException ex) {
@@ -498,8 +518,12 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             // System.out.println(rs);
+            System.out.println("Stop Num \t Stop Addr. ");
             while (rs.next()) {
-                rs.getString(1);
+                int stopNum = rs.getInt(1);
+                String StopAddr = rs.getString(2);
+ 
+                System.out.println(stopNum+" \t \t "+StopAddr+" ");
             }
             conn.close();
         } catch (SQLException ex) {
@@ -507,8 +531,9 @@ public class Main {
             System.out.println("FAILURE!");
         }
     }
-
+//given driver and date
     public static void displayWeekQuery(String dName, String date){
+        
         try {
             String sql = "SELECT TRO.TripNumber, TRO.`Date`, TRO.ScheduledStartTime, TRO.BusID"+
                          "FROM TripOffering"+
