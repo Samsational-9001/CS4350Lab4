@@ -203,7 +203,7 @@ public class Main {
             // newBus(busID, "", 0000);
             newTripOffering(tripNum, date, startTime, arrivalTime, driverName, busID);
 
-            System.out.println("Do you want to endter more trips?(Y/N)");
+            System.out.println("Do you want to enter more trips?(Y/N)");
             String option = scan.nextLine();
 
             if (option.equalsIgnoreCase("y")) {
@@ -253,10 +253,11 @@ public class Main {
             now.add(Calendar.DAY_OF_MONTH,1);
         }
         //System.out.println(Arrays.toString(daysOfWeek));
-        System.out.println("TripNumber \t Date \t ScheduledStartTime \t BusID");
+        System.out.println("TripNumber \t Date \t \t ScheduledStartTime \t BusID");
         for (String days : daysOfWeek) {
             displayWeekQuery(name, days);
         }
+        System.out.println("Transaction for week was successful.");
 
 
     }
@@ -345,6 +346,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -360,6 +362,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -375,6 +378,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -391,6 +395,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -412,6 +417,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -428,6 +434,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -443,6 +450,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -459,6 +467,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -475,6 +484,7 @@ public class Main {
             stmt.executeUpdate(sql);
             // System.out.println(rs);
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -501,9 +511,10 @@ public class Main {
                 String arrTime = rs.getString(2);
                 String dName = rs.getString(3);
                 int busNum = rs.getInt(4);
-                System.out.println(startTime+"\t \t \t "+arrTime+" \t \t \t "+dName+" \t \t "+busNum);
+                System.out.println(startTime+"\t \t \t "+arrTime+" \t \t \t "+dName+" \t "+busNum);
             }
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -529,6 +540,7 @@ public class Main {
                 System.out.println(tripNumRes+" \t \t "+stopNum+" \t \t "+seqNum+" \t \t \t "+StopAddr);
             }
             conn.close();
+            System.out.println("Transaction was successful.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("FAILURE!");
@@ -554,7 +566,7 @@ public class Main {
                 String dateRes = rs.getString(2);
                 String schedTime = rs.getString(3);
                 int busNumRes = rs.getInt(4);
-                System.out.println(tripNumRes+"\t \t \t "+dateRes+" \t \t \t "+schedTime+" \t \t "+busNumRes);
+                System.out.println(tripNumRes+"\t \t "+dateRes+" \t \t "+schedTime+" \t \t "+busNumRes);
             }
             conn.close();
         } catch (SQLException ex) {
